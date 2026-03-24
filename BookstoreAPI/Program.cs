@@ -18,14 +18,12 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-// 2. Register the Database
 builder.Services.AddDbContext<BookstoreContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("BookstoreConnection")));
 
-// ... further down, after var app = builder.Build();
-app.UseCors("AllowReact");
+var app = builder.Build(); // First, build the app
 
-var app = builder.Build();
+app.UseCors("AllowReact"); // Now you can use it
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
