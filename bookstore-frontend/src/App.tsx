@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-// Define the book structure based on your C# Model [cite: 13-18, 20]
+// Define the book structure based on your C# Model
 interface Book {
   bookId: number;
   title: string;
@@ -16,18 +16,19 @@ interface Book {
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5); // Default: 5 books per page [cite: 23]
+  const [pageSize, setPageSize] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
+  const [sortDir, setSortDir] = useState("asc"); // New state for sorting
 
   useEffect(() => {
-    // Fetching from your live API port [cite: 10]
-    fetch(`http://localhost:5231/api/book?page=${page}&pageSize=${pageSize}`)
+    // Fetching from your live API port, now including the sort parameter
+    fetch(`http://localhost:5231/api/book?page=${page}&pageSize=${pageSize}&sort=${sortDir}`)
       .then((res) => res.json())
       .then((data) => {
         setBooks(data.books);
         setTotalCount(data.totalCount);
       });
-  }, [page, pageSize]);
+  }, [page, pageSize, sortDir]); // Added sortDir to dependencies
 
   return (
     <div className="container mt-4">
@@ -37,7 +38,7 @@ function App() {
       </header>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
-        {/* Requirement: Allow user to change results per page [cite: 24] */}
+        {/* Requirement: Allow user to change results per page */}
         <div className="input-group w-auto">
           <label className="input-group-text">Items per page:</label>
           <select 
@@ -56,7 +57,14 @@ function App() {
       <table className="table table-striped table-bordered table-hover shadow-sm">
         <thead className="table-secondary">
           <tr>
-            <th>Title</th> {/* Backend handles Sorting by Title [cite: 26] */}
+            {/* Clickable header to toggle sorting */}
+            <th 
+              style={{ cursor: "pointer", userSelect: "none" }} 
+              onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+              title="Click to sort by Title"
+            >
+              Title {sortDir === "asc" ? "▲" : "▼"}
+            </th>
             <th>Author</th>
             <th>Publisher</th>
             <th>ISBN</th>
@@ -80,7 +88,7 @@ function App() {
         </tbody>
       </table>
 
-      {/* Requirement: Add pagination [cite: 23, 24] */}
+      {/* Requirement: Add pagination */}
       <nav className="d-flex justify-content-center mt-4">
         <ul className="pagination">
           <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>

@@ -16,22 +16,23 @@ namespace BookstoreAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBooks(int page = 1, int pageSize = 5)
+        public IActionResult GetBooks(int page = 1, int pageSize = 5, string sort = "asc")
         {
-            // Requirement: Add the ability to allow the user to sort by book title
-            var query = _context.Books.OrderBy(b => b.Title);
+            // Toggle between ascending and descending based on user input
+            var query = sort == "desc" 
+                ? _context.Books.OrderByDescending(b => b.Title) 
+                : _context.Books.OrderBy(b => b.Title);
 
             // Calculate total count for frontend pagination logic
             var totalCount = query.Count();
 
-            // Requirement: Add pagination listing 5 books per page for as many books as are in the database
-            // Requirement: Allow the user to change the number of results per page
+            // Pagination listing X books per page
             var books = query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            // Returns both the list of books and the total count to help the frontend manage page buttons
+            // Returns both the list of books and the total count
             return Ok(new 
             { 
                 books, 
