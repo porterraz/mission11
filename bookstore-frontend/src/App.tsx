@@ -16,19 +16,25 @@ interface Book {
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(5); // Default: 5 books per page
   const [totalCount, setTotalCount] = useState(0);
-  const [sortDir, setSortDir] = useState("asc"); // New state for sorting
+  const [sortDir, setSortDir] = useState("asc"); // State to track sorting direction
 
   useEffect(() => {
-    // Fetching from your live API port, now including the sort parameter
-    fetch(`http://localhost:5231/api/book?page=${page}&pageSize=${pageSize}&sort=${sortDir}`)
-      .then((res) => res.json())
+    // Calling the HTTPS port (7149) directly to avoid CORS redirect issues
+    fetch(`https://localhost:7149/api/book?page=${page}&pageSize=${pageSize}&sort=${sortDir}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
       .then((data) => {
         setBooks(data.books);
         setTotalCount(data.totalCount);
-      });
-  }, [page, pageSize, sortDir]); // Added sortDir to dependencies
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [page, pageSize, sortDir]); // Re-run fetch when page, size, or sort changes
 
   return (
     <div className="container mt-4">
@@ -57,7 +63,7 @@ function App() {
       <table className="table table-striped table-bordered table-hover shadow-sm">
         <thead className="table-secondary">
           <tr>
-            {/* Clickable header to toggle sorting */}
+            {/* Requirement: Allow the user to sort by book title */}
             <th 
               style={{ cursor: "pointer", userSelect: "none" }} 
               onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
@@ -94,7 +100,9 @@ function App() {
           <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
             <button className="page-link" onClick={() => setPage(page - 1)}>Previous</button>
           </li>
-          <li className="page-item disabled"><span className="page-link text-dark">Page {page}</span></li>
+          <li className="page-item disabled">
+            <span className="page-link text-dark">Page {page}</span>
+          </li>
           <li className={`page-item ${page * pageSize >= totalCount ? 'disabled' : ''}`}>
             <button className="page-link" onClick={() => setPage(page + 1)}>Next</button>
           </li>
