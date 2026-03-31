@@ -2509,11 +2509,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\porte\\source\\repos\\BookstoreAPI\\BookstoreAPI\\BookstoreAPI.csproj",
+      "projectUniqueName": "C:\\Users\\porte\\Downloads\\mission11\\BookstoreAPI\\BookstoreAPI.csproj",
       "projectName": "BookstoreAPI",
-      "projectPath": "C:\\Users\\porte\\source\\repos\\BookstoreAPI\\BookstoreAPI\\BookstoreAPI.csproj",
+      "projectPath": "C:\\Users\\porte\\Downloads\\mission11\\BookstoreAPI\\BookstoreAPI.csproj",
       "packagesPath": "C:\\Users\\porte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\porte\\source\\repos\\BookstoreAPI\\BookstoreAPI\\obj\\",
+      "outputPath": "C:\\Users\\porte\\Downloads\\mission11\\BookstoreAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
