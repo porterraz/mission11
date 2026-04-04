@@ -14,7 +14,6 @@ function Admin() {
   const [isEditing, setIsEditing] = useState(false);
 
   const fetchBooks = () => {
-    // Fetching 100 books just for the admin table view
     fetch(`http://localhost:5231/api/book?page=1&pageSize=100`)
       .then(res => res.json())
       .then(data => setBooks(data.books));
@@ -48,7 +47,7 @@ function Admin() {
   const handleEdit = (b: Book) => {
     setForm(b);
     setIsEditing(true);
-    window.scrollTo(0, 0); // Scroll to form
+    window.scrollTo(0, 0); 
   };
 
   return (
@@ -58,7 +57,6 @@ function Admin() {
         <a href="/" className="btn btn-secondary">Back to Store</a>
       </div>
 
-      {/* CRUD Form */}
       <div className="card p-4 mb-4">
         <h4>{isEditing ? "Edit Book" : "Add New Book"}</h4>
         <form onSubmit={handleSubmit} className="row g-3">
@@ -77,7 +75,6 @@ function Admin() {
         </form>
       </div>
 
-      {/* Book List for Admin */}
       <table className="table table-bordered">
         <thead className="table-dark"><tr><th>ID</th><th>Title</th><th>Author</th><th>Price</th><th>Actions</th></tr></thead>
         <tbody>

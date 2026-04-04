@@ -7,7 +7,10 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* The Store Homepage */}
         <Route path="/" element={<BookList />} />
+        
+        {/* The Mission 13 Admin Page */}
         <Route path="/adminbooks" element={<Admin />} />
       </Routes>
     </Router>
