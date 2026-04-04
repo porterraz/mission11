@@ -14,7 +14,7 @@ function Admin() {
   const [isEditing, setIsEditing] = useState(false);
 
   const fetchBooks = () => {
-    fetch(`http://localhost:5231/api/book?page=1&pageSize=100`)
+    fetch(`https://porter-bookstore-api.azurewebsites.net/api/book?page=1&pageSize=100`)
       .then(res => res.json())
       .then(data => setBooks(data.books));
   };
@@ -23,7 +23,7 @@ function Admin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const url = isEditing ? `http://localhost:5231/api/book/${form.bookId}` : `http://localhost:5231/api/book`;
+    const url = isEditing ? `https://porter-bookstore-api.azurewebsites.net/api/book/${form.bookId}` : `https://porter-bookstore-api.azurewebsites.net/api/book`;
     const method = isEditing ? "PUT" : "POST";
 
     fetch(url, {
@@ -39,7 +39,7 @@ function Admin() {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Are you sure you want to delete this book?")) {
-      fetch(`http://localhost:5231/api/book/${id}`, { method: "DELETE" })
+      fetch(`https://porter-bookstore-api.azurewebsites.net/api/book/${id}`, { method: "DELETE" })
         .then(() => fetchBooks());
     }
   };
