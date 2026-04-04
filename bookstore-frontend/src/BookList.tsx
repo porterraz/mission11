@@ -15,7 +15,7 @@ function BookList() {
   const pageSize = 5;
 
   useEffect(() => {
-    fetch(`http://localhost:5231/api/book?category=${category}&page=${page}&pageSize=${pageSize}`)
+    fetch(`https://porter-bookstore-api.azurewebsites.net/api/book?category=${category}&page=${page}&pageSize=${pageSize}`)
       .then(res => res.json())
       .then(data => { setBooks(data.books); setTotalCount(data.totalCount); });
   }, [category, page]);
